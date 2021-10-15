@@ -1,0 +1,18 @@
+server:
+  port: 8525
+
+spring:
+  application:
+    name: sunflower-word
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        namespace: { namespace:923b2ce7-8e81-4ddd-a9ee-04db4c1afd66 }
+        group: PROD_GROUP
+        server-addr: 60.205.224.166:8848
+      discovery:
+        server-addr: 60.205.224.166:8848
+        namespace: { namespace:923b2ce7-8e81-4ddd-a9ee-04db4c1afd66 }
+        group: PROD_GROUP
+        ip: { ip:8.140.110.215 }
