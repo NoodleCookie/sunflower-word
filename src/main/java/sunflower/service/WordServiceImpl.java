@@ -20,6 +20,7 @@ public class WordServiceImpl implements WordService {
     public WordCard save(WordCard wordCard) {
         wordCard.setCreatedBy(UserContext.getUser());
         wordCard.setDeleted(false);
+        wordCard.getExplains().forEach(explain -> explain.setCreatedBy(UserContext.getUser()));
         return wordCardRepository.save(wordCard);
     }
 
@@ -35,7 +36,7 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public void move(long id, boolean isMove) {
-        wordCardRepository.moveCard(id, isMove);
+//        wordCardRepository.moveCard(id, isMove);
     }
 
     @Override
@@ -50,11 +51,13 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public List<WordCard> selectByChi(String chi) {
-        return wordCardRepository.findAllByChiLikeAndCreatedByIs(chi, UserContext.getUser());
+//        return wordCardRepository.findAllByChiLikeAndCreatedByIs(chi, UserContext.getUser());
+        return null;
     }
 
     @Override
     public List<WordCard> selectByChiOrEng(String target) {
-        return wordCardRepository.findAllByEngAndChi(target, UserContext.getUser());
+//        return wordCardRepository.findAllByEngAndChi(target, UserContext.getUser());
+        return null;
     }
 }

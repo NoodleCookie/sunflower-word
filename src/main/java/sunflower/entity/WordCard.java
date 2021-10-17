@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -16,7 +17,7 @@ import java.util.List;
 @Builder
 @Table(name = "sunflower_word_card")
 @Entity
-public class WordCard {
+public class WordCard extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +29,9 @@ public class WordCard {
 
     private String note;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Explain.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "word_card_id", referencedColumnName = "id")
     private List<Explain> explains;
-
-    private String createdBy;
-
-    @CreatedDate
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    private Date createdTime;
 
     private boolean deleted;
 }

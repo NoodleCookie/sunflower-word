@@ -12,18 +12,18 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
 
     List<WordCard> findAllByCreatedBy(String createdBy);
 
-    @Query(value = "select w from WordCard w where w.eng like %?1% and w.createdBy = ?2")
+    @Query(value = "select w from WordCard w where w.word like %?1% and w.createdBy = ?2")
     List<WordCard> findAllByEngLikeAndCreatedByIs(String eng, String creator);
 
-    @Query(value = "select w from WordCard w where w.chi like %?1% and w.createdBy = ?2")
-    List<WordCard> findAllByChiLikeAndCreatedByIs(String chi, String creator);
-
-    @Query(value = "select w from WordCard w where w.chi like %?1% or w.eng like %?1% and w.createdBy = ?2")
-    List<WordCard> findAllByEngAndChi(String target, String creator);
-
-    @Query(value = "update WordCard w set w.deleted=?2 where w.id=?1")
-    void moveCard(long id, boolean move);
-
-    @Override
-    void deleteById(Long id);
+//    @Query(value = "select w from WordCard w where w.chi like %?1% and w.createdBy = ?2")
+//    List<WordCard> findAllByChiLikeAndCreatedByIs(String chi, String creator);
+//
+//    @Query(value = "select w from WordCard w where w.chi like %?1% or w.eng like %?1% and w.createdBy = ?2")
+//    List<WordCard> findAllByEngAndChi(String target, String creator);
+//
+//    @Query(value = "update WordCard w set w.deleted=?2 where w.id=?1")
+////    void moveCard(long id, boolean move);
+//
+//    @Override
+//    void deleteById(Long id);
 }
