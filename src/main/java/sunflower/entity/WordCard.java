@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,9 +22,14 @@ public class WordCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String eng;
+    private String word;
 
-    private String chi;
+    private String eg;
+
+    private String note;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Explain> explains;
 
     private String createdBy;
 
