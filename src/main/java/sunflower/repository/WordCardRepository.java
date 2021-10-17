@@ -24,6 +24,6 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
 //    @Query(value = "update WordCard w set w.deleted=?2 where w.id=?1")
 ////    void moveCard(long id, boolean move);
 //
-//    @Override
-//    void deleteById(Long id);
+    @Override
+    void deleteById(Long id);
 }

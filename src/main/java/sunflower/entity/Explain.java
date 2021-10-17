@@ -18,6 +18,7 @@ public class Explain extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
 
     @Enumerated(EnumType.STRING)
