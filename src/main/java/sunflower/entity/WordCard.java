@@ -29,7 +29,7 @@ public class WordCard extends BaseEntity {
 
     private String note;
 
-    @OneToMany(targetEntity = Explain.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Explain.class, cascade = {CascadeType.DETACH})
     @JoinColumn(name = "word_card_id", referencedColumnName = "id")
     private List<Explain> explains;
 

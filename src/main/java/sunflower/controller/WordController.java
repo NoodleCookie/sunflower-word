@@ -28,28 +28,16 @@ public class WordController {
         return wordService.select();
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/word/eng/{eng}")
-    public List<WordCard> selectEngLike(@PathVariable("eng") String eng) {
-        return wordService.selectByEng(eng);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/word/chi/{chi}")
-    public List<WordCard> selectChiLike(@PathVariable("chi") String chi) {
-        return wordService.selectByChi(chi);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/word/all/{target}")
-    public List<WordCard> selectChiOrEngLike(@PathVariable("target") String target) {
-        return wordService.selectByChiOrEng(target);
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/word/{id}")
     public void delete(@PathVariable("id") long id) {
         wordService.delete(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PatchMapping("/word")
+    public void update(@RequestBody WordCard wordCard) {
+        wordService.update(wordCard);
     }
 
 }

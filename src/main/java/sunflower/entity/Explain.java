@@ -18,7 +18,6 @@ public class Explain extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -26,11 +25,11 @@ public class Explain extends BaseEntity {
 
     private String ch;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JsonIgnore
     private WordCard wordCard;
 
-    private enum PartOfSpeech {
-        verb, noun, adj, adv, prep, conj, phrase, art
+    public enum PartOfSpeech {
+        verb, noun, adj, adv, prep, conj, phrase, art;
     }
 }

@@ -1,6 +1,7 @@
 package sunflower.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sunflower.configuration.UserContext;
 import sunflower.entity.Explain;
 import sunflower.entity.WordCard;
@@ -26,5 +27,16 @@ public class ExplainServiceImpl implements ExplainService {
         explain.setWordCard(word);
         explainRepository.save(explain);
         return word;
+    }
+
+    @Override
+    public void delete(long id) {
+        explainRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Integer update(Explain explain) {
+        return explainRepository.update(explain.getId(), explain.getCh(), explain.getType());
     }
 }

@@ -24,4 +24,16 @@ public class ExplainController {
     public WordCard insert(@PathVariable("id") long id, @RequestBody Explain explain) {
         return explainService.insert(id, explain);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/explain/{id}")
+    public void delete(@PathVariable("id") long id) {
+        explainService.delete(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/explain")
+    public Integer update(@RequestBody Explain explain) {
+        return explainService.update(explain);
+    }
 }

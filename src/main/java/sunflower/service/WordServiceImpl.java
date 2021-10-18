@@ -2,7 +2,9 @@ package sunflower.service;
 
 import org.springframework.stereotype.Service;
 import sunflower.configuration.UserContext;
+import sunflower.entity.Explain;
 import sunflower.entity.WordCard;
+import sunflower.repository.ExplainRepository;
 import sunflower.repository.WordCardRepository;
 
 import java.util.List;
@@ -10,23 +12,29 @@ import java.util.List;
 @Service
 public class WordServiceImpl implements WordService {
 
+    private ExplainRepository explainRepository;
+
     private WordCardRepository wordCardRepository;
 
-    public WordServiceImpl(WordCardRepository wordCardRepository) {
+    public WordServiceImpl(ExplainRepository explainRepository, WordCardRepository wordCardRepository) {
+        this.explainRepository = explainRepository;
         this.wordCardRepository = wordCardRepository;
     }
+
 
     @Override
     public WordCard save(WordCard wordCard) {
         wordCard.setCreatedBy(UserContext.getUser());
         wordCard.setDeleted(false);
-        wordCard.getExplains().forEach(explain -> explain.setCreatedBy(UserContext.getUser()));
+        List<Explain> explains = wordCard.getExplains();
+        explains.forEach(explain -> explain.setCreatedBy(UserContext.getUser()));
+        explainRepository.saveAll(explains);
         return wordCardRepository.save(wordCard);
     }
 
     @Override
     public WordCard update(WordCard wordCard) {
-        return null;
+        return save(wordCard);
     }
 
     @Override
@@ -35,29 +43,7 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void move(long id, boolean isMove) {
-//        wordCardRepository.moveCard(id, isMove);
-    }
-
-    @Override
     public List<WordCard> select() {
         return wordCardRepository.findAllByCreatedBy(UserContext.getUser());
-    }
-
-    @Override
-    public List<WordCard> selectByEng(String eng) {
-        return wordCardRepository.findAllByEngLikeAndCreatedByIs(eng, UserContext.getUser());
-    }
-
-    @Override
-    public List<WordCard> selectByChi(String chi) {
-//        return wordCardRepository.findAllByChiLikeAndCreatedByIs(chi, UserContext.getUser());
-        return null;
-    }
-
-    @Override
-    public List<WordCard> selectByChiOrEng(String target) {
-//        return wordCardRepository.findAllByEngAndChi(target, UserContext.getUser());
-        return null;
     }
 }
