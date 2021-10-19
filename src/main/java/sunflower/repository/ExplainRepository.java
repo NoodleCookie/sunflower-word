@@ -16,6 +16,6 @@ public interface ExplainRepository extends JpaRepository<Explain, Long> {
     @Query("update Explain e set e.ch=?2 , e.type=?3 where e.id=?1")
     Integer update(long id, String ch, Explain.PartOfSpeech type);
 
-    @Query("select e.wordCard from Explain e where e.ch like %?1% and ")
+    @Query("select e.wordCard from Explain e where e.ch like %?1%")
     List<WordCard> findWordIdWhereChLike(String ch);
 }
