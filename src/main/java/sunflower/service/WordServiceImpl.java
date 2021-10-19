@@ -33,8 +33,8 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public WordCard update(WordCard wordCard) {
-        return save(wordCard);
+    public void update(WordCard wordCard) {
+        save(wordCard);
     }
 
     @Override
@@ -45,5 +45,16 @@ public class WordServiceImpl implements WordService {
     @Override
     public List<WordCard> select() {
         return wordCardRepository.findAllByCreatedBy(UserContext.getUser());
+    }
+
+    @Override
+    public List<WordCard> findByWord(String word) {
+        return wordCardRepository.findAllByEngLikeAndCreatedByIs(word, UserContext.getUser());
+    }
+
+    @Override
+    public List<WordCard> findByCh(String ch) {
+
+        return null;
     }
 }

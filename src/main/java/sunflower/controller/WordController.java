@@ -28,6 +28,12 @@ public class WordController {
         return wordService.select();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/word/eng/{eng}")
+    public List<WordCard> select(@PathVariable("eng") String word) {
+        return wordService.findByWord(word);
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/word/{id}")
     public void delete(@PathVariable("id") long id) {
