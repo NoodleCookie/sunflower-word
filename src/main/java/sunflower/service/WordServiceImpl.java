@@ -8,6 +8,7 @@ import sunflower.repository.ExplainRepository;
 import sunflower.repository.WordCardRepository;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class WordServiceImpl implements WordService {
@@ -49,7 +50,7 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public List<WordCard> findByWord(String word) {
-        return wordCardRepository.findAllByEngLikeAndCreatedByIs(word, UserContext.getUser());
+        return wordCardRepository.findAllByEngLikeAndCreatedByIs(word.toLowerCase(Locale.ROOT), UserContext.getUser());
     }
 
     @Override
