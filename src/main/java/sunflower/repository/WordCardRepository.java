@@ -12,7 +12,7 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
 
     List<WordCard> findAllByCreatedByOrderByCreatedTimeDesc(String createdBy);
 
-    @Query(value = "select w from WordCard w where lower(w.word) like %?1% and w.createdBy = ?2")
+    @Query(value = "select w from WordCard w where lower(w.word) like %?1% and w.createdBy = ?2 order by w.createdTime desc ")
     List<WordCard> findAllByEngLikeAndCreatedByIs(String eng, String creator);
 
 //    @Query(value = "select w from WordCard w where w.chi like %?1% and w.createdBy = ?2")
