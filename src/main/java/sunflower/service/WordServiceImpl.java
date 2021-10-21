@@ -44,7 +44,7 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public List<WordCard> select() {
-        return wordCardRepository.findAllByCreatedBy(UserContext.getUser());
+        return wordCardRepository.findAllByCreatedByOrderByCreatedTimeDesc(UserContext.getUser());
     }
 
     @Override
