@@ -1,6 +1,7 @@
 package sunflower.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sunflower.configuration.UserContext;
 import sunflower.entity.Explain;
 import sunflower.entity.WordCard;
@@ -9,6 +10,7 @@ import sunflower.repository.WordCardRepository;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class WordServiceImpl implements WordService {
@@ -30,6 +32,7 @@ public class WordServiceImpl implements WordService {
         List<Explain> explains = wordCard.getExplains();
         explains.forEach(explain -> explain.setCreatedBy(UserContext.getUser()));
         explainRepository.saveAll(explains);
+        wordCard.setKeyExplain(explains.stream().map(Explain::getCh).collect(Collectors.joining(";")));
         return wordCardRepository.save(wordCard);
     }
 
@@ -44,18 +47,23 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
+    @Transactional
+    public void logicDelete(long id) {
+        wordCardRepository.logicDeleteWord(id,UserContext.getUser());
+    }
+
+    @Override
     public List<WordCard> select() {
-        return wordCardRepository.findAllByCreatedByOrderByCreatedTimeDesc(UserContext.getUser());
+        return wordCardRepository.findAllByCreatedByOrderByCreatedTimeDesc(UserContext.getUser()).stream().filter(w-> !w.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
     public List<WordCard> findByWord(String word) {
-        return wordCardRepository.findAllByEngLikeAndCreatedByIs(word.toLowerCase(Locale.ROOT), UserContext.getUser());
+        return wordCardRepository.findAllByEngLikeAndCreatedByIs(word.toLowerCase(Locale.ROOT), UserContext.getUser()).stream().filter(w-> !w.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
     public List<WordCard> findByCh(String ch) {
-
-        return null;
+        return wordCardRepository.findAllByKeyExplainLikeAndCreatedByIsOrderByCreatedTimeDesc(ch, UserContext.getUser()).stream().filter(w-> !w.isDeleted()).collect(Collectors.toList());
     }
 }

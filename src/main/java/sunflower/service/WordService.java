@@ -11,6 +11,8 @@ public interface WordService {
 
     void delete(long id);
 
+    void logicDelete(long id);
+
     List<WordCard> select();
 
     List<WordCard> findByWord(String word);

@@ -1,6 +1,7 @@
 package sunflower.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sunflower.entity.WordCard;
@@ -15,15 +16,14 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
     @Query(value = "select w from WordCard w where lower(w.word) like %?1% and w.createdBy = ?2 order by w.createdTime desc ")
     List<WordCard> findAllByEngLikeAndCreatedByIs(String eng, String creator);
 
-//    @Query(value = "select w from WordCard w where w.chi like %?1% and w.createdBy = ?2")
-//    List<WordCard> findAllByChiLikeAndCreatedByIs(String chi, String creator);
-//
-//    @Query(value = "select w from WordCard w where w.chi like %?1% or w.eng like %?1% and w.createdBy = ?2")
-//    List<WordCard> findAllByEngAndChi(String target, String creator);
-//
-//    @Query(value = "update WordCard w set w.deleted=?2 where w.id=?1")
-////    void moveCard(long id, boolean move);
-//
+    @Query(value = "select w from WordCard w where w.keyExplain like %?1% and w.createdBy = ?2 order by w.createdTime desc ")
+    List<WordCard> findAllByKeyExplainLikeAndCreatedByIsOrderByCreatedTimeDesc(String ch, String creator);
+
     @Override
     void deleteById(Long id);
+
+    @Modifying
+    @Query(value = "update WordCard w set w.deleted=true where w.id = ?1 and w.createdBy=?2")
+    void logicDeleteWord(Long id, String creator);
+
 }

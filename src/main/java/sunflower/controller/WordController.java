@@ -34,10 +34,23 @@ public class WordController {
         return wordService.findByWord(word);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/word/ch/{ch}")
+    public List<WordCard> selectByCh(@PathVariable("ch") String ch) {
+        return wordService.findByCh(ch);
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/word/{id}")
     public void delete(@PathVariable("id") long id) {
         wordService.delete(id);
+    }
+
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/word/logic/{id}")
+    public void logicDelete(@PathVariable("id") long id) {
+        wordService.logicDelete(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
