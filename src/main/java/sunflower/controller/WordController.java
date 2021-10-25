@@ -40,6 +40,12 @@ public class WordController {
         return wordService.findByCh(ch);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/word/trash")
+    public List<WordCard> trashWord() {
+        return wordService.findDeletedWord();
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/word/{id}")
     public void delete(@PathVariable("id") long id) {
