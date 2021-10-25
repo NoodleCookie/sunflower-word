@@ -1,18 +1,15 @@
 package sunflower.service;
 
 import lombok.Data;
-import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import sun.audio.AudioPlayer;
 import sunflower.configuration.UserContext;
 import sunflower.entity.WordAudio;
 import sunflower.repository.WordAudioRepository;
 
 import java.io.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Service
