@@ -1,8 +1,10 @@
 package sunflower.controller;
 
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import sunflower.entity.WordCard;
+import sunflower.service.GoogleTranslatorService;
 import sunflower.service.WordService;
 
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.List;
 public class WordController {
 
     private WordService wordService;
+    private GoogleTranslatorService googleTranslatorService;
 
-    public WordController(WordService wordService) {
+    public WordController(WordService wordService, GoogleTranslatorService googleTranslatorService) {
         this.wordService = wordService;
+        this.googleTranslatorService = googleTranslatorService;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -65,4 +69,10 @@ public class WordController {
         wordService.update(wordCard);
     }
 
+    @SneakyThrows
+    @ResponseStatus(HttpStatus.CREATED)
+    @GetMapping("/word/translate/{eng}")
+    public String translate(@PathVariable("eng") String word) {
+        return googleTranslatorService.translate("en", "zh-CN", word);
+    }
 }
