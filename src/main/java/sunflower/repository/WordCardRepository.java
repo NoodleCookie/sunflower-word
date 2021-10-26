@@ -32,6 +32,6 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
 
     List<WordCard> findAllByCollectedIsAndCreatedByIsOrderByCreatedTimeDesc(boolean collect, String creator);
 
-    List<WordCard> findAllByDeletedIsAndCreatedByIsOrderByCreatedTimeDesc(boolean delete, String creator);
+    List<WordCard> findAllByDeletedIsAndCreatedByIsAndDeletedIsFalseOrderByCreatedTimeDesc(boolean delete, String creator);
 
 }
