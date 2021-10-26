@@ -34,7 +34,7 @@ public class DictationService {
     @SneakyThrows
     public void addWordsToTopic(String name, MultipartFile file) {
         DefaultSimpleDictationTopic simpleTopic = (DefaultSimpleDictationTopic) memoryDictationPublisher.getTopicMap().get(name);
-        List<String> words = mediaService.getWordsFromPicture(file.getBytes()).getWords_result().stream().map(BaiduPicDetectiveDto.WordsResult::getWords).collect(Collectors.toList());
+        List<String> words = mediaService.getWordsFromPicture(file.getBytes()).getWords_result().stream().map(BaiduPicDetectiveDto.WordsResult::getWords).map(String::trim).collect(Collectors.toList());
         simpleTopic.getWords().addAll(words);
     }
 

@@ -56,6 +56,7 @@ public class MediaService {
         for (String word : words) {
             if (!allKey.contains(word)) {
                 byte[] audio = restTemplate.getForObject(translateUrl + word, byte[].class);
+                System.out.println(word+":"+audio.length);
                 WordAudio wordAudio = WordAudio.builder().word(word).audio(audio).build();
                 wordAudio.setCreatedBy(UserContext.getUser());
                 wordAudioRepository.save(wordAudio);
