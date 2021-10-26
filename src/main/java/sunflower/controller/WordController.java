@@ -64,7 +64,7 @@ public class WordController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/word/collect/{id}")
+    @PostMapping("/word/collect/{id}")
     public void collectWord(@PathVariable("id") long id) {
         wordService.collectWord(id);
     }
