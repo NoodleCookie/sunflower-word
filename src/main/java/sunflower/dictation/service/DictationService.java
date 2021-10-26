@@ -27,7 +27,7 @@ public class DictationService {
 
     @SneakyThrows
     public void publish(String name, MultipartFile file) {
-        List<String> words = mediaService.getWordsFromPicture(file.getBytes()).getWords_result().stream().map(BaiduPicDetectiveDto.WordsResult::getWords).collect(Collectors.toList());
+        List<String> words = mediaService.getWordsFromPicture(file.getBytes()).getWords_result().stream().map(BaiduPicDetectiveDto.WordsResult::getWords).map(String::trim).collect(Collectors.toList());
         memoryDictationPublisher.publish(DefaultSimpleDictationTopic.builder().mediaService(mediaService).words(words).name(name).build().downloadWords());
     }
 
