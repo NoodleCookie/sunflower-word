@@ -1,30 +1,45 @@
 package sunflower.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import sunflower.configuration.BaiduConfiguration;
 import sunflower.configuration.UserContext;
+import sunflower.dto.BaiduPicDetectiveDto;
 import sunflower.entity.WordAudio;
 import sunflower.repository.WordAudioRepository;
+import sunflower.utils.Base64Util;
+import sunflower.utils.HttpUtil;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Set;
 
 @Service
 @ConfigurationProperties(prefix = "word")
 @Data
-public class AudioPlayerService {
+public class MediaService {
 
     private RestTemplate restTemplate = new RestTemplate();
 
     private String translateUrl = "";
+    private String pictureDetective = "";
+    private String accessToken = "";
 
     private WordAudioRepository wordAudioRepository;
 
-    public AudioPlayerService(WordAudioRepository wordAudioRepository) {
+    private BaiduConfiguration baiduConfiguration;
+
+    public MediaService(WordAudioRepository wordAudioRepository, BaiduConfiguration baiduConfiguration) {
         this.wordAudioRepository = wordAudioRepository;
+        this.baiduConfiguration = baiduConfiguration;
+    }
+
+    private String getAccessTokenFromBaidu() {
+        return AuthService.getAuth();
     }
 
     public byte[] getAudio(String word) {
@@ -46,5 +61,24 @@ public class AudioPlayerService {
                 wordAudioRepository.save(wordAudio);
             }
         }
+    }
+
+    public BaiduPicDetectiveDto getWordsFromPicture(byte[] imgData) {
+        try {
+            // 本地文件路径
+//            String filePath = "[本地文件路径]";
+//            byte[] imgData = FileUtil.readFileByBytes(filePath);
+            String imgStr = Base64Util.encode(imgData);
+            String imgParam = URLEncoder.encode("data:image/jpg;base64,"+imgStr, "UTF-8");
+
+            String param = "image=" + imgParam;
+
+            String result = HttpUtil.post(pictureDetective, accessToken, param);
+            System.out.println(result);
+            return new ObjectMapper().readValue(result, BaiduPicDetectiveDto.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
