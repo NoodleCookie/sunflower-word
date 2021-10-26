@@ -63,6 +63,12 @@ public class WordController {
         wordService.logicDelete(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/word/collect/{id}")
+    public void collectWord(@PathVariable("id") long id) {
+        wordService.collectWord(id);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PatchMapping("/word")
     public void update(@RequestBody WordCard wordCard) {

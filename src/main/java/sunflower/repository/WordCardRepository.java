@@ -26,6 +26,10 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
     @Query(value = "update WordCard w set w.deleted=true where w.id = ?1 and w.createdBy=?2")
     void logicDeleteWord(Long id, String creator);
 
+    @Modifying
+    @Query(value = "update WordCard w set w.collected=true where w.id = ?1 and w.createdBy=?2")
+    void collectWord(Long id, String creator);
+
     List<WordCard> findAllByDeletedIsAndCreatedByIsOrderByCreatedTimeDesc(boolean delete, String creator);
 
 }

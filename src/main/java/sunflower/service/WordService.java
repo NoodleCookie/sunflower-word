@@ -13,6 +13,8 @@ public interface WordService {
 
     void logicDelete(long id);
 
+    void collectWord(long id);
+
     List<WordCard> select();
 
     List<WordCard> findByWord(String word);

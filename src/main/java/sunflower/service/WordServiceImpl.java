@@ -29,6 +29,7 @@ public class WordServiceImpl implements WordService {
     public WordCard save(WordCard wordCard) {
         wordCard.setCreatedBy(UserContext.getUser());
         wordCard.setDeleted(false);
+        wordCard.setCollected(false);
         List<Explain> explains = wordCard.getExplains();
         explains.forEach(explain -> explain.setCreatedBy(UserContext.getUser()));
         explainRepository.saveAll(explains);
@@ -50,6 +51,12 @@ public class WordServiceImpl implements WordService {
     @Transactional
     public void logicDelete(long id) {
         wordCardRepository.logicDeleteWord(id,UserContext.getUser());
+    }
+
+    @Override
+    @Transactional
+    public void collectWord(long id) {
+        wordCardRepository.collectWord(id,UserContext.getUser());
     }
 
     @Override

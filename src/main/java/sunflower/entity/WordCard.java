@@ -36,4 +36,6 @@ public class WordCard extends BaseEntity {
     private List<Explain> explains;
 
     private boolean deleted;
+
+    private boolean collected;
 }
