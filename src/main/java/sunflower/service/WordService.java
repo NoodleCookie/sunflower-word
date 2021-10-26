@@ -22,4 +22,6 @@ public interface WordService {
     List<WordCard> findByCh(String ch);
 
     List<WordCard> findDeletedWord();
+
+    List<WordCard> findCollectedWord();
 }

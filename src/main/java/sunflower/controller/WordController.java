@@ -50,6 +50,12 @@ public class WordController {
         return wordService.findDeletedWord();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/word/collection")
+    public List<WordCard> collectedWord() {
+        return wordService.findCollectedWord();
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/word/{id}")
     public void delete(@PathVariable("id") long id) {

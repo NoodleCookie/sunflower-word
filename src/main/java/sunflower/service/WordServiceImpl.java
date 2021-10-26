@@ -78,4 +78,9 @@ public class WordServiceImpl implements WordService {
     public List<WordCard> findDeletedWord() {
         return wordCardRepository.findAllByDeletedIsAndCreatedByIsOrderByCreatedTimeDesc(true,UserContext.getUser());
     }
+
+    @Override
+    public List<WordCard> findCollectedWord() {
+        return wordCardRepository.findAllByCollectedIsAndCreatedByIsOrderByCreatedTimeDesc(true,UserContext.getUser());
+    }
 }
