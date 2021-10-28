@@ -5,11 +5,9 @@ import java.util.Collection;
 public interface Publisher {
     String getHost();
 
-    Collection<? extends Subscriber> getSubscriber();
+    Collection<String> getSubscriber();
 
     void add(Subscriber subscriber);
 
     void publish(SimpleTopic simpleTopic);
-
-
 }

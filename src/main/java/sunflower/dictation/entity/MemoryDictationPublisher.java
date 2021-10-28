@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import sunflower.configuration.UserContext;
+import sunflower.dictation.repo.MemoryPublisherRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Component
 @Data
 public class MemoryDictationPublisher extends DefaultAbstractPublisher {
 
@@ -22,18 +24,22 @@ public class MemoryDictationPublisher extends DefaultAbstractPublisher {
         this.topicMap = new HashMap<>();
     }
 
-    @Override
-    public String getHost() {
-        return UserContext.getUser();
+    @PostConstruct
+    public void initial() {
+        MemoryPublisherRepository.store(this);
     }
 
     @Override
-    public void after(SimpleTopic simpleTopic) {
-//        this.topicMap.remove(simpleTopic.getName());
+    public String getHost() {
+        return "simple-dictation-publisher-" + UserContext.getUser();
     }
 
     @Override
     public void before(SimpleTopic simpleTopic) {
-        this.topicMap.put(simpleTopic.getName(),simpleTopic);
+        this.topicMap.put(simpleTopic.getName(), simpleTopic);
+    }
+
+    public Set<String> getSimpleTopics() {
+        return topicMap.keySet();
     }
 }

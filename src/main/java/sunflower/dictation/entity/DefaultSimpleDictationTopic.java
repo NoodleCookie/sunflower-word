@@ -24,7 +24,7 @@ public class DefaultSimpleDictationTopic implements SimpleTopic {
 
     @Override
     public String getName() {
-        return "[" + UserContext.getUser() + "]:DefaultSimpleDictationTopic:"+name;
+        return name;
     }
 
 
