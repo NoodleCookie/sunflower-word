@@ -2,8 +2,8 @@ package sunflower.dictation.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sunflower.dictation.service.DictationService;
-import sunflower.dictation.service.TopicService;
+import sunflower.dictation.service.SimpleDictationService;
+import sunflower.dictation.service.NormalDictationService;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,63 +12,63 @@ import java.util.Map;
 @RestController
 public class TopicController {
 
-    private final DictationService dictationService;
-    private final TopicService topicService;
+    private final SimpleDictationService simpleDictationService;
+    private final NormalDictationService normalDictationService;
 
-    public TopicController(DictationService dictationService, TopicService topicService) {
-        this.dictationService = dictationService;
-        this.topicService = topicService;
+    public TopicController(SimpleDictationService simpleDictationService, NormalDictationService normalDictationService) {
+        this.simpleDictationService = simpleDictationService;
+        this.normalDictationService = normalDictationService;
     }
 
     @PostMapping("/simple-publisher")
     public void initialSimplePublisher() {
-        dictationService.initialSimplePublisher();
+        simpleDictationService.initialSimplePublisher();
     }
 
     @PostMapping("/normal-publisher")
     public void initialPublisher() {
-        topicService.initDaoPublisher();
+        normalDictationService.initDaoPublisher();
     }
 
     @GetMapping("/simple-publishers")
     public Collection<String> getSimplePublishers() {
-        return dictationService.getSimplePublishers();
+        return simpleDictationService.getSimplePublishers();
     }
 
     @GetMapping("/normal-publishers")
     public Collection<String> getNormalPublishers() {
-        return topicService.getNormalPublisher();
+        return normalDictationService.getNormalPublisher();
     }
 
     @PostMapping("/topic/dictation/simple/{name}")
     public void publishSimpleTopic(@PathVariable("name") String name, @RequestPart("file") MultipartFile file) {
-        dictationService.publishSimpleTopic(name, file);
+        simpleDictationService.publishSimpleTopic(name, file);
     }
 
     @PostMapping("/topic/dictation/normal/{name}")
     public void publishNormalTopic(@PathVariable("name") String name, @RequestPart("file") MultipartFile file) {
-        topicService.publishNormalTopic(name, "nothing", file);
+        normalDictationService.publishNormalTopic(name, "nothing", file);
     }
 
     @GetMapping("/topic/simple/{publisher}")
     public Collection<String> getSimpleTopics(@PathVariable("publisher") String publisher) {
-        return dictationService.getSimpleTopics(publisher);
+        return simpleDictationService.getSimpleTopics(publisher);
     }
 
     @GetMapping("/topic/normal/{publisher}")
     public Collection<String> getNormalTopics(@PathVariable("publisher") String publisher) {
-        return topicService.getNormalTopics(publisher);
+        return normalDictationService.getNormalTopics(publisher);
     }
 
     @GetMapping("/topic/simple-words/{publisher}/{topic}")
     public Collection<String> getSimpleWords(@PathVariable("topic") String topic, @PathVariable("publisher") String publisher) {
-        return dictationService.getSimpleWords(publisher, topic);
+        return simpleDictationService.getSimpleWords(publisher, topic);
     }
 
     @GetMapping("/topic/normal-words/{publisher}/{topic}")
     public Collection<String> getNormalWords(@PathVariable("topic") String topic, @PathVariable("publisher") String publisher) {
         System.out.println(publisher);
-        return topicService.getNormalWords(topic);
+        return normalDictationService.getNormalWords(topic);
     }
 
 //    @GetMapping("/topic/subscriber")
@@ -83,6 +83,6 @@ public class TopicController {
 
     @PostMapping("/topic/test")
     public List<String> getWords(@RequestBody Map<String, String> name) {
-        return dictationService.getTopicMap(name.get("topic"));
+        return simpleDictationService.getTopicMap(name.get("topic"));
     }
 }

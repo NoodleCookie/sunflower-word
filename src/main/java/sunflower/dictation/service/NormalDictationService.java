@@ -12,10 +12,11 @@ import sunflower.dto.BaiduPicDetectiveDto;
 import sunflower.service.MediaService;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
-public class TopicService {
+public class NormalDictationService {
 
     private final TopicRepository topicRepository;
     private final PublisherSubscriberMappingRepository publisherSubscriberMappingRepository;
@@ -27,7 +28,7 @@ public class TopicService {
     private final ThreadLocal<DaoDictationPublisher> daoDictationPublisher = new ThreadLocal<>();
     private final ThreadLocal<DaoSubscriber> daoSubscriber = new ThreadLocal<>();
 
-    public TopicService(TopicRepository topicRepository, PublisherSubscriberMappingRepository publisherSubscriberMappingRepository, PublisherTopicMappingRepository publisherTopicMappingRepository, TopicWordMappingRepository topicWordMappingRepository, MediaService mediaService) {
+    public NormalDictationService(TopicRepository topicRepository, PublisherSubscriberMappingRepository publisherSubscriberMappingRepository, PublisherTopicMappingRepository publisherTopicMappingRepository, TopicWordMappingRepository topicWordMappingRepository, MediaService mediaService) {
         this.topicRepository = topicRepository;
         this.mediaService = mediaService;
         this.publisherTopicMappingRepository = publisherTopicMappingRepository;
@@ -44,7 +45,7 @@ public class TopicService {
     @SneakyThrows
     public void publishNormalTopic(String name, String description, MultipartFile file) {
         initDaoPublisher();
-        List<String> words = mediaService.getWordsFromPicture(file.getBytes()).getWords_result().stream().map(BaiduPicDetectiveDto.WordsResult::getWords).collect(Collectors.toList());
+        List<String> words = mediaService.getWordsFromPicture(file.getBytes()).getWords_result().stream().map(BaiduPicDetectiveDto.WordsResult::getWords).map(wz->wz.toLowerCase(Locale.ROOT).trim()).collect(Collectors.toList());
         daoDictationPublisher.get().publish(DaoDictationTopic.builder().name(name).description(description).build());
         mediaService.downloadAudio(words);
         for (String word : words) {

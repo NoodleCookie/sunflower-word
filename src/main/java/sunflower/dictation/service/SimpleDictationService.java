@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DictationService {
+public class SimpleDictationService {
 
     private final MediaService mediaService;
 
     private final ThreadLocal<MemoryDictationPublisher> memoryDictationPublisher = new ThreadLocal<>();
     private final ThreadLocal<MemoryDictationSubscriber> memoryDictationSubscriber = new ThreadLocal<>();
 
-    public DictationService(MediaService mediaService) {
+    public SimpleDictationService(MediaService mediaService) {
         this.mediaService = mediaService;
     }
 
