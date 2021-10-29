@@ -10,6 +10,7 @@ import sunflower.repository.WordCardRepository;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +44,12 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
+    public WordCard query(long id) {
+        Optional<WordCard> optionalWordCard = wordCardRepository.findById(id);
+        return optionalWordCard.orElseGet(WordCard::new);
+    }
+
+    @Override
     public void delete(long id) {
         wordCardRepository.deleteById(id);
     }
@@ -56,7 +63,11 @@ public class WordServiceImpl implements WordService {
     @Override
     @Transactional
     public void collectWord(long id) {
-        wordCardRepository.collectWord(id,UserContext.getUser());
+        if (!wordCardRepository.findById(id).get().isCollected()) {
+            wordCardRepository.collectWord(id,UserContext.getUser());
+        }else {
+            wordCardRepository.cancelCollectWord(id,UserContext.getUser());
+        }
     }
 
     @Override

@@ -9,6 +9,8 @@ public interface WordService {
 
     void update(WordCard wordCard);
 
+    WordCard query(long id);
+
     void delete(long id);
 
     void logicDelete(long id);

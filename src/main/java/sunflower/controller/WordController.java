@@ -33,6 +33,12 @@ public class WordController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/word/query/{id}")
+    public WordCard selectWordById(@PathVariable("id") long id) {
+        return wordService.query(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/word/eng/{eng}")
     public List<WordCard> select(@PathVariable("eng") String word) {
         return wordService.findByWord(word);
