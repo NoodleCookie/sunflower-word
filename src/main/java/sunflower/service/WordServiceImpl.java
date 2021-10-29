@@ -72,7 +72,7 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public List<WordCard> select() {
-        return wordCardRepository.findAllByCreatedByOrderByCreatedTimeDesc(UserContext.getUser()).stream().filter(w-> !w.isDeleted()).collect(Collectors.toList());
+        return wordCardRepository.findAllByCreatedByOrderByIdDesc(UserContext.getUser()).stream().filter(w-> !w.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
