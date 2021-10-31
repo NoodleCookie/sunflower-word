@@ -87,6 +87,8 @@ public class MediaService {
 
     @SneakyThrows
     public void uploadCustomAudio(String name,MultipartFile file){
-        wordAudioRepository.save(WordAudio.builder().audio(file.getBytes()).word(name).build());
+        WordAudio build = WordAudio.builder().audio(file.getBytes()).word(name).build();
+        build.setCreatedBy(UserContext.getUser());
+        wordAudioRepository.save(build);
     }
 }
