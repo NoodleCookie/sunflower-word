@@ -31,4 +31,9 @@ public class AudioPlayerController {
     public BaiduPicDetectiveDto uploadWordPicture(@RequestPart("file") MultipartFile file) throws IOException {
         return mediaService.getWordsFromPicture(file.getBytes());
     }
+
+    @PostMapping("/custom-audio/{name}")
+    public void customAudio(@PathVariable("name") String name, @RequestPart("file") MultipartFile file) {
+        mediaService.uploadCustomAudio(name, file);
+    }
 }

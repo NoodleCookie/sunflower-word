@@ -2,9 +2,11 @@ package sunflower.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import sunflower.configuration.BaiduConfiguration;
 import sunflower.configuration.UserContext;
 import sunflower.dto.BaiduPicDetectiveDto;
@@ -81,5 +83,10 @@ public class MediaService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @SneakyThrows
+    public void uploadCustomAudio(String name,MultipartFile file){
+        wordAudioRepository.save(WordAudio.builder().audio(file.getBytes()).word(name).build());
     }
 }
